@@ -3,6 +3,8 @@ import 'package:api_crud_practice/views/addProductScreen/add_product_screen.dart
 import 'package:api_crud_practice/views/homeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../controllers/data_repository.dart';
+
 class Routes{
   static const homeScreen = "/homeScreen";
   static const addProductScreen = "/addProductScreen";
@@ -11,7 +13,7 @@ class Routes{
     final Map<String,WidgetBuilder> routes = {
       Routes.homeScreen:(context) => const HomeScreen(),
       Routes.addProductScreen:(context){
-        DataController dataController = routeSettings.arguments as DataController;
+        DataRepository dataController = routeSettings.arguments as DataRepository;
         return AddProductScreen(dataController: dataController);
       },
     };

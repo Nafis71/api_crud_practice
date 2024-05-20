@@ -1,12 +1,16 @@
-import 'package:api_crud_practice/controllers/data_controller.dart';
 import 'package:api_crud_practice/models/product_model.dart';
+import 'package:api_crud_practice/themes/text_theme.dart';
+import 'package:api_crud_practice/utils/colors.dart';
 import 'package:api_crud_practice/utils/text_constants.dart';
 import 'package:api_crud_practice/views/widgets/app_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../../controllers/data_repository.dart';
+
 class AddProductScreen extends StatefulWidget {
-  final DataController dataController;
+  final DataRepository dataController;
+
   const AddProductScreen({super.key, required this.dataController});
 
   @override
@@ -20,6 +24,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   late TextEditingController _quantityController;
   late TextEditingController _imageController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool isSaving = false;
+  bool uploadDone = false;
 
   @override
   void initState() {
@@ -33,6 +39,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if(uploadDone){
+      Navigator.pop(context,true);
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Product"),
@@ -49,6 +58,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       key: _formKey,
                       child: Column(
                         children: [
+                          const Gap(15),
+                          Text("Enter Product Information",style: TextThemes.getTextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),),
+                          const Gap(20),
                           AppTextFormField(
                             controller: _productCodeController,
                             labelText: productCodeLabelText,
@@ -93,7 +108,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             controller: _imageController,
                             labelText: productImageLabelText,
                             hintText: productImageHintText,
-                            regularExpression: imageUrlRegEx,
                             isEnabled: true,
                             errorText: productImageErrorText,
                             textInputType: TextInputType.text,
@@ -114,20 +128,38 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       .size
                       .height * 0.15,
                   child: Padding(
-                    padding: const EdgeInsets.all(0.00),
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        ProductModel product = ProductModel(sId: "0",
-                            productName: _nameController.text,
-                            productCode: _productCodeController.text,
-                            img: _imageController.text,
-                            unitPrice: _unitPriceController.text,
-                            qty: _quantityController.text,
-                            totalPrice: "0");
-                        widget.dataController.addProduct(_formKey, product);
+                    padding: const EdgeInsets.all(5.00),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if(_formKey.currentState!.validate() && !isSaving){
+                          isSaving = true;
+                          setState(() {});
+                          ProductModel product = widget.dataController
+                              .processInputData(productName: _nameController.text,
+                              productCode: _productCodeController.text,
+                              productImage: _imageController.text,
+                              productUnitPrice: _unitPriceController.text,
+                              productQuantity: _quantityController.text);
+                          bool status = await widget.dataController.addProduct(
+                              _formKey, product);
+                          if (status) {
+                            isSaving = false;
+                            uploadDone = true;
+                            setState(() {});
+                          }
+                        }
                       },
-                      icon: const Icon(Icons.save),
-                      label: const Text("Save Data"),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          (!isSaving)
+                              ? const Icon(Icons.save)
+                              : const CircularProgressIndicator(
+                            color: whiteColor,),
+                          const Gap(15),
+                          const Text("Add Product")
+                        ],
+                      ),
                     ),
                   ),
                 )

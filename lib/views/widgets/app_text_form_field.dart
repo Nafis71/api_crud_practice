@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppTextFormField extends StatelessWidget {
   final TextEditingController controller;
-  final String labelText, hintText, regularExpression, errorText;
+  final String labelText, hintText, errorText;
+  final String? regularExpression;
   final bool isEnabled;
   final TextInputType textInputType;
   const AppTextFormField(
@@ -10,7 +11,7 @@ class AppTextFormField extends StatelessWidget {
       required this.controller,
       required this.labelText,
       required this.hintText,
-      required this.regularExpression,
+      this.regularExpression,
       required this.isEnabled,
       required this.errorText, required this.textInputType});
 
@@ -25,7 +26,7 @@ class AppTextFormField extends StatelessWidget {
         hintText: hintText,
       ),
       validator: (value) {
-        if (value!.isEmpty || !RegExp(regularExpression).hasMatch(value)) {
+        if (regularExpression!= null && (value!.isEmpty || !RegExp(regularExpression!).hasMatch(value))) {
           return errorText;
         }
         return null;

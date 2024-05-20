@@ -21,7 +21,7 @@ class ApiService {
 
   Future<bool> insertData(String endPoint, ProductModel product) async {
     final Response response = await http.post(Uri.parse("$baseUrl/$endPoint"),
-        body: jsonEncode(product.toJson(false)),
+        body: jsonEncode(product.toJson()),
         headers: {'content-type': 'application/json'});
     if(response.statusCode == 200){
       return true;

@@ -19,19 +19,16 @@ class ProductModel {
 
   ProductModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    productName = json['ProductName'];
-    productCode = json['ProductCode'];
-    img = json['Img'];
-    unitPrice = json['UnitPrice'];
-    qty = json['Qty'];
-    totalPrice = json['TotalPrice'];
+    productName = json['ProductName'] ?? "Unknown";
+    productCode = json['ProductCode']?? "Unknown";
+    img = json['Img']?? "Unknown";
+    unitPrice = json['UnitPrice']?? "0";
+    qty = json['Qty']?? "0";
+    totalPrice = json['TotalPrice']?? "0";
   }
 
-  Map<String, dynamic> toJson(bool isUpdating) {
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if(isUpdating){
-      data['_Id'] = sId;
-    }
     data['ProductName'] = productName;
     data['ProductCode'] = productCode;
     data['Img'] = img;
