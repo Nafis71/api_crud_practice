@@ -26,7 +26,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   late TextEditingController _imageController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isSaving = false;
-  bool uploadDone = false;
 
   @override
   void initState() {
@@ -57,10 +56,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       child: Column(
                         children: [
                           const Gap(15),
-                          Text("Enter Product Information",style: TextThemes.getTextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),),
+                          Text(
+                            "Enter Product Information",
+                            style: TextThemes.getTextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           const Gap(20),
                           AppTextFormField(
                             controller: _productCodeController,
@@ -118,32 +120,29 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  height: (orientation == Orientation.portrait) ? MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.075 : MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.15,
+                  height: (orientation == Orientation.portrait)
+                      ? MediaQuery.of(context).size.height * 0.075
+                      : MediaQuery.of(context).size.height * 0.15,
                   child: Padding(
                     padding: const EdgeInsets.all(5.00),
                     child: ElevatedButton(
                       onPressed: () async {
-                        if(_formKey.currentState!.validate() && !isSaving){
+                        if (_formKey.currentState!.validate() && !isSaving) {
                           isSaving = true;
                           setState(() {});
                           ProductModel product = widget.dataController
-                              .processInputData(productName: _nameController.text,
-                              productCode: _productCodeController.text,
-                              productImage: _imageController.text,
-                              productUnitPrice: _unitPriceController.text,
-                              productQuantity: _quantityController.text);
-                          bool status = await widget.dataController.addProduct(
-                              _formKey, product);
+                              .processInputData(
+                                  productName: _nameController.text,
+                                  productCode: _productCodeController.text,
+                                  productImage: _imageController.text,
+                                  productUnitPrice: _unitPriceController.text,
+                                  productQuantity: _quantityController.text);
+                          bool status = await widget.dataController
+                              .addProduct(_formKey, product);
                           if (status) {
                             goBack();
-                          } else{
-                            showSnackBar(addProductFailureText,Colors.red);
+                          } else {
+                            showSnackBar(addProductFailureText, Colors.red);
                           }
                         }
                       },
@@ -153,7 +152,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           (!isSaving)
                               ? const Icon(Icons.save)
                               : const CircularProgressIndicator(
-                            color: whiteColor,),
+                                  color: whiteColor,
+                                ),
                           const Gap(15),
                           const Text("Add Product")
                         ],
@@ -169,11 +169,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
-  void goBack(){
-    Navigator.pop(context,true);
+  void goBack() {
+    Navigator.pop(context, true);
   }
 
-  void showSnackBar(String title,Color color){
+  void showSnackBar(String title, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(appSnackbar(title, color));
   }
 
