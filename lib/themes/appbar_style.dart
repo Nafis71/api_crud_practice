@@ -5,6 +5,7 @@ class AppbarStyle{
   static AppBarTheme getAppbarStyle() => const AppBarTheme(
     backgroundColor: appPrimaryColor,
     surfaceTintColor: appPrimaryLightColor,
+    foregroundColor: whiteColor,
     titleTextStyle: TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.bold,

@@ -3,6 +3,8 @@ import 'package:api_crud_practice/models/product_model.dart';
 import 'package:api_crud_practice/services/api_service.dart';
 import 'package:api_crud_practice/themes/text_theme.dart';
 import 'package:api_crud_practice/utils/colors.dart';
+import 'package:api_crud_practice/utils/routes.dart';
+import 'package:api_crud_practice/views/homeScreen/product_list_layout.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/text_constants.dart';
@@ -16,11 +18,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final DataController dataController;
+  ValueNotifier<List<ProductModel>> productListNotifier =
+      ValueNotifier<List<ProductModel>>([]);
+
   @override
   void initState() {
     dataController = DataController(ApiService(baseUrl: baseUrl));
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,78 +52,43 @@ class _HomeScreenState extends State<HomeScreen> {
               child: FutureBuilder(
                 future: dataController.getProductData(),
                 builder: (context, snapshot) {
+                  print("building");
                   if (snapshot.hasData) {
-                    List<ProductModel> productList = snapshot.data!;
+                    productListNotifier.value = snapshot.data!;
                     return Visibility(
                       visible: true,
                       replacement: const Center(
-                          child: CircularProgressIndicator(
-                        color: appPrimaryLightColor,
-                      )),
-                      child: ListView.separated(
-                        itemCount: productList.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              contentPadding: const EdgeInsets.all(10.00),
-                              leading: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
-                                width:
-                                    MediaQuery.of(context).size.height * 0.08,
-                                decoration: BoxDecoration(
-                                    //TODO will remove the color later
-                                    image: DecorationImage(image: NetworkImage(productList[index].img),fit: BoxFit.fill),
-                                    shape: BoxShape.circle),
-                              ),
-                              title: Text(
-                                productList[index].productName,
-                                style: TextThemes.getTextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.w700),
-                              ),
-                              subtitle: const Wrap(
-                                children: [
-                                  Text(
-                                    "Unit Price: 72\$",
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "QTY: 7",
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Total Price: 3327\$",
-                                  ),
-                                ],
-                              ),
-                              trailing: Wrap(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.edit,
-                                      color: appPrimaryColor,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: redColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(
-                              height: 5,
-                            );
-                          },),
+                        child: CircularProgressIndicator(
+                          color: appPrimaryLightColor,
+                        ),
+                      ),
+                      child: ValueListenableBuilder<List<ProductModel>>(
+                        valueListenable: productListNotifier,
+                        builder: (
+                          BuildContext context,
+                          List<ProductModel> productList,
+                          Widget? child,
+                        ) {
+                          return ListView.separated(
+                            itemCount: productList.length,
+                            itemBuilder: (context, index) {
+                              return ProductListLayout(
+                                productList: productList,
+                                index: index,
+                                removeFromList: () {
+                                  productListNotifier.value = dataController
+                                      .removeProductData(productList, index);
+                                },
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(
+                                height: 5,
+                              );
+                            },
+                          );
+                        },
+                      ),
                     );
                   }
                   return const Center(
@@ -128,6 +99,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.addProductScreen,arguments: dataController).then((value){
+            setState(() {});
+          });
+        },
+        backgroundColor: appPrimaryColor,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.00)),
+        child: const Icon(
+          Icons.add,
+          color: whiteColor,
+          size: 30,
         ),
       ),
     );

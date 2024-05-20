@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:api_crud_practice/models/product_model.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,7 +15,17 @@ class ApiService {
       final Map<String, dynamic> decodedData = jsonDecode(response.body);
       return decodedData['data'];
     } else {
-      throw Exception("Failed to load data");
+      throw Exception("Failed to load data : Error ${response.statusCode}");
     }
+  }
+
+  Future<bool> insertData(String endPoint, ProductModel product) async {
+    final Response response = await http.post(Uri.parse("$baseUrl/$endPoint"),
+        body: jsonEncode(product.toJson(false)),
+        headers: {'content-type': 'application/json'});
+    if(response.statusCode == 200){
+      return true;
+    }
+    throw Exception("Failed to save data : Error ${response.statusCode}");
   }
 }
