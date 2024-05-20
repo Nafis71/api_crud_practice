@@ -2,6 +2,7 @@ import 'package:api_crud_practice/models/product_model.dart';
 import 'package:api_crud_practice/themes/text_theme.dart';
 import 'package:api_crud_practice/utils/colors.dart';
 import 'package:api_crud_practice/utils/text_constants.dart';
+import 'package:api_crud_practice/views/widgets/app_snackbar.dart';
 import 'package:api_crud_practice/views/widgets/app_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -39,9 +40,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if(uploadDone){
-      Navigator.pop(context,true);
-    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Product"),
@@ -143,9 +141,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           bool status = await widget.dataController.addProduct(
                               _formKey, product);
                           if (status) {
-                            isSaving = false;
-                            uploadDone = true;
-                            setState(() {});
+                            goBack();
+                          } else{
+                            showSnackBar(addProductFailureText,Colors.red);
                           }
                         }
                       },
@@ -169,6 +167,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
         },
       ),
     );
+  }
+
+  void goBack(){
+    Navigator.pop(context,true);
+  }
+
+  void showSnackBar(String title,Color color){
+    ScaffoldMessenger.of(context).showSnackBar(appSnackbar(title, color));
   }
 
   @override

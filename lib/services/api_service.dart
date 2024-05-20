@@ -28,4 +28,13 @@ class ApiService {
     }
     throw Exception("Failed to save data : Error ${response.statusCode}");
   }
+
+  Future<bool> deleteData(String endPoint,String productId)async{
+    final Response response = await http.get(Uri.parse("$baseUrl/$endPoint/$productId"));
+    if(response.statusCode == 200){
+      return true;
+    }
+    throw Exception("Failed to delete data : Error ${response.statusCode}");
+  }
+
 }
