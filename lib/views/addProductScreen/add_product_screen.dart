@@ -2,6 +2,7 @@ import 'package:api_crud_practice/models/product_model.dart';
 import 'package:api_crud_practice/themes/text_theme.dart';
 import 'package:api_crud_practice/utils/colors.dart';
 import 'package:api_crud_practice/utils/text_constants.dart';
+import 'package:api_crud_practice/views/addProductScreen/form_layout.dart';
 import 'package:api_crud_practice/views/widgets/app_snackbar.dart';
 import 'package:api_crud_practice/views/widgets/app_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -51,71 +52,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
               children: [
                 Expanded(
                   child: SingleChildScrollView(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          const Gap(15),
-                          Text(
-                            "Enter Product Information",
-                            style: TextThemes.getTextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Gap(20),
-                          AppTextFormField(
-                            controller: _productCodeController,
-                            labelText: productCodeLabelText,
-                            hintText: productCodeHintText,
-                            regularExpression: alphabetsAndDigitsRegEx,
-                            isEnabled: true,
-                            errorText: productCodeErrorText,
-                            textInputType: TextInputType.text,
-                          ),
-                          const Gap(20),
-                          AppTextFormField(
-                            controller: _nameController,
-                            labelText: productNameLabelText,
-                            hintText: productNameHintText,
-                            regularExpression: alphabetsAndDigitsWithSpaceRegEx,
-                            isEnabled: true,
-                            errorText: productNameErrorText,
-                            textInputType: TextInputType.text,
-                          ),
-                          const Gap(20),
-                          AppTextFormField(
-                            controller: _unitPriceController,
-                            labelText: productUnitPriceLabelText,
-                            hintText: productUnitPriceHintText,
-                            regularExpression: digitsRegEx,
-                            isEnabled: true,
-                            errorText: productUnitPriceErrorText,
-                            textInputType: TextInputType.number,
-                          ),
-                          const Gap(20),
-                          AppTextFormField(
-                            controller: _quantityController,
-                            labelText: productQuantityLabelText,
-                            hintText: productQuantityHintText,
-                            regularExpression: digitsRegEx,
-                            isEnabled: true,
-                            errorText: productQuantityErrorText,
-                            textInputType: TextInputType.number,
-                          ),
-                          const Gap(20),
-                          AppTextFormField(
-                            controller: _imageController,
-                            labelText: productImageLabelText,
-                            hintText: productImageHintText,
-                            isEnabled: true,
-                            errorText: productImageErrorText,
-                            textInputType: TextInputType.text,
-                          ),
-                          const Gap(20),
-                        ],
-                      ),
-                    ),
+                    child: FormLayout(
+                        formKey: _formKey,
+                        productCodeController: _productCodeController,
+                        nameController: _nameController,
+                        unitPriceController: _unitPriceController,
+                        quantityController: _quantityController,
+                        imageController: _imageController),
                   ),
                 ),
                 SizedBox(
