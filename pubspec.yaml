@@ -40,6 +40,7 @@ dependencies:
   liquid_pull_to_refresh: ^3.0.1
   device_preview_minus: ^1.0.4
   toastification: ^2.0.0
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -64,8 +65,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

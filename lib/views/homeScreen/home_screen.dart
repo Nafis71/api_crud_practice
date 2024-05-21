@@ -1,14 +1,20 @@
+import 'dart:math';
+
 import 'package:api_crud_practice/controllers/data_controller.dart';
 import 'package:api_crud_practice/controllers/data_repository.dart';
 import 'package:api_crud_practice/models/product_model.dart';
 import 'package:api_crud_practice/services/api_service.dart';
 import 'package:api_crud_practice/utils/colors.dart';
 import 'package:api_crud_practice/utils/routes.dart';
+import 'package:api_crud_practice/views/homeScreen/no_product_data.dart';
 import 'package:api_crud_practice/views/homeScreen/product_list_layout.dart';
 import 'package:api_crud_practice/views/widgets/app_alert_dialog.dart';
 import 'package:api_crud_practice/views/widgets/app_snackbar.dart';
 import 'package:api_crud_practice/views/widgets/app_toast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:toastification/toastification.dart';
 import '../../utils/text_constants.dart';
@@ -59,12 +65,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (snapshot.hasData) {
                         productListNotifier.value = snapshot.data!;
                         return Visibility(
-                          visible: true,
-                          replacement: const Center(
-                            child: CircularProgressIndicator(
-                              color: appPrimaryLightColor,
-                            ),
-                          ),
+                          visible: snapshot.data!.isNotEmpty,
+                          replacement: NoProductData(onRefresh: () async{
+                            List<ProductModel> productList =
+                                await dataController.getProductData();
+                            if (productList.isNotEmpty) {
+                              setState(() {});
+                            }
+                          }),
                           child: ValueListenableBuilder<List<ProductModel>>(
                             valueListenable: productListNotifier,
                             builder: (
@@ -72,6 +80,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               List<ProductModel> productList,
                               Widget? child,
                             ) {
+                              if (productList.isEmpty) {
+                                return NoProductData(onRefresh: () async{
+                                  List<ProductModel> productList =
+                                  await dataController.getProductData();
+                                  if (productList.isNotEmpty) {
+                                    setState(() {});
+                                  }
+                                });
+                              }
                               return LiquidPullToRefresh(
                                 showChildOpacityTransition: false,
                                 animSpeedFactor: 2,
