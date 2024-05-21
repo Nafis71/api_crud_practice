@@ -11,6 +11,7 @@ class AppAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      surfaceTintColor: whiteColor,
       icon: const Icon(
         Icons.warning_amber,
         color: Colors.red,

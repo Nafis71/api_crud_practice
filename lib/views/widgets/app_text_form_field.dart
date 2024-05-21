@@ -29,6 +29,9 @@ class AppTextFormField extends StatelessWidget {
         if (regularExpression!= null && (value!.isEmpty || !RegExp(regularExpression!).hasMatch(value))) {
           return errorText;
         }
+        if(value!.isEmpty){
+          return errorText;
+        }
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,

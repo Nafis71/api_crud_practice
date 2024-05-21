@@ -38,6 +38,7 @@ dependencies:
   http: ^1.2.1
   gap: ^3.0.1
   liquid_pull_to_refresh: ^3.0.1
+  device_preview_minus: ^1.0.4
 
 dev_dependencies:
   flutter_test:
