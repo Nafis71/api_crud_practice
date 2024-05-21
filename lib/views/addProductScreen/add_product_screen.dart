@@ -86,7 +86,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           if (status) {
                             goBack(addProductSuccessfulText);
                           } else {
+                            isSaving = false;
                             showSnackBar(addProductFailureText, Colors.red);
+                            setState(() {});
                           }
                         }
                       },

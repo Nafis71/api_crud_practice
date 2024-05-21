@@ -99,7 +99,6 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                             isSaving = false;
                             showSnackBar(updateProductFailureText, Colors.red);
                             setState(() {
-
                             });
                           }
                         }
