@@ -1,8 +1,12 @@
 const homeScreenAppbarTitle = "Product List";
 const homeScreenProductDataHeader = "Showing Product Data";
 const addProductSuccessfulText = "Product has been added successfully!";
+const updateProductSuccessfulText = "Product has been updated successfully!";
 const addProductFailureText = "Product failed to insert, try again!";
+const updateProductFailureText = "Product failed to update, try again!";
 const deleteProductSuccessful = "Product has been deleted successfully";
+const addProductScreenTitle = "Enter Product Information";
+const updateProductScreenTitle = "Edit Product Information";
 
 
 //Api baseUrl
@@ -10,6 +14,7 @@ const String baseUrl = "https://crud.teamrabbil.com/api/v1";
 const String readProductEndpoint = "ReadProduct";
 const String createProductEndpoint = "CreateProduct";
 const String deleteProductEndpoint = "DeleteProduct";
+const String updateProductEndpoint = "UpdateProduct";
 
 //alertDialog
 const String alertDialogWarningHeader = "Warning";

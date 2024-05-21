@@ -37,6 +37,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(homeScreenAppbarTitle),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.more_vert,
+                size: 30,
+              )),
+        ],
       ),
       body: OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
@@ -61,36 +69,52 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ValueListenableBuilder<List<ProductModel>>(
                             valueListenable: productListNotifier,
                             builder: (
-                                BuildContext context,
-                                List<ProductModel> productList,
-                                Widget? child,
-                                ) {
+                              BuildContext context,
+                              List<ProductModel> productList,
+                              Widget? child,
+                            ) {
                               return LiquidPullToRefresh(
                                 showChildOpacityTransition: false,
                                 animSpeedFactor: 2,
                                 backgroundColor: whiteColor,
                                 color: appPrimaryColor,
                                 height: 150,
-                                springAnimationDurationInMilliseconds: 1000,
+                                springAnimationDurationInMilliseconds: 1300,
                                 onRefresh: () async {
                                   productListNotifier.value =
-                                  await dataController.getProductData();
+                                      await dataController.getProductData();
                                 },
                                 child: GridView.builder(
                                   itemCount: productList.length,
                                   gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3,
-                                      crossAxisSpacing: 2,
-                                      mainAxisSpacing: 5,
-                                      childAspectRatio: (orientation == Orientation.portrait) ? 0.7 : 0.8
-                                  ),
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: (orientation ==
+                                                  Orientation.portrait)
+                                              ? 2
+                                              : 3,
+                                          crossAxisSpacing: 2,
+                                          mainAxisSpacing: 1,
+                                          childAspectRatio: (orientation ==
+                                                  Orientation.portrait)
+                                              ? 0.7
+                                              : 0.8),
                                   itemBuilder: (context, index) {
                                     return ProductListLayout(
-                                      orientation: orientation,
+                                        orientation: orientation,
                                         productList: productList,
                                         removeFromList: () {
                                           showAlertDialog(index, productList);
+                                        },
+                                        editScreenNavigation: (){
+                                          Navigator.pushNamed(context, Routes.updateProductScreen, arguments: {
+                                            "dataRepository": dataController,
+                                            "product": productList[index],
+                                          }).then((message){
+                                            if(message !=null){
+                                              postUpdateMessage(message.toString());
+                                            }
+                                            setState(() {});
+                                          });
                                         },
                                         index: index);
                                   },
@@ -101,9 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       }
                       return const Center(
-                          child: CircularProgressIndicator(
-                            color: appPrimaryColor,
-                          ));
+                        child: CircularProgressIndicator(
+                          color: appPrimaryColor,
+                        ),
+                      );
                     },
                   ),
                 )
@@ -111,19 +136,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
-
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, Routes.addProductScreen,
                   arguments: dataController)
-              .then((value) {
-            if (value != null && value == true) {
-              Future.delayed(const Duration(milliseconds: 900), () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    appSnackbar(addProductSuccessfulText, appPrimaryColor));
-              });
-            }
+              .then((message) {
+                if(message!=null){
+                  postUpdateMessage(message.toString());
+                }
             setState(() {});
           });
         },
@@ -138,6 +159,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  void postUpdateMessage(String message){
+    Future.delayed(const Duration(milliseconds: 900), () {
+      ScaffoldMessenger.of(context).showSnackBar(
+          appSnackbar(message, appPrimaryColor));
+    });
+    }
 
   Future<void> showAlertDialog(
       int index, List<ProductModel> productList) async {

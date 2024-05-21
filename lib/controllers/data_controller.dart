@@ -28,12 +28,21 @@ class DataController implements DataRepository {
   }
 
   @override
-  Future<bool> addProduct(
-      GlobalKey<FormState> formKey, ProductModel product) async {
+  Future<bool> addProduct(ProductModel product) async {
     try {
       return await apiService.insertData(createProductEndpoint, product);
     } catch (e) {
-      log('$e');
+      log(e.toString());
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> updateProduct(ProductModel product) async {
+    try {
+      return await apiService.updateData(updateProductEndpoint, product);
+    } catch (e) {
+      log(e.toString());
       return false;
     }
   }
@@ -54,6 +63,7 @@ class DataController implements DataRepository {
 
   @override
   ProductModel processInputData({
+    String? productId,
     required String productName,
     required String productCode,
     required String productImage,
@@ -64,7 +74,7 @@ class DataController implements DataRepository {
             (double.tryParse(productQuantity) ?? 0.0))
         .toInt();
     ProductModel product = ProductModel(
-        sId: "0",
+        sId: productId ?? "0",
         productName: productName,
         productCode: productCode,
         img: productImage,

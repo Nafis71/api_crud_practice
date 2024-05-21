@@ -1,11 +1,12 @@
 import 'package:api_crud_practice/models/product_model.dart';
+import 'package:api_crud_practice/utils/routes.dart';
 import 'package:flutter/material.dart';
 import '../../themes/text_theme.dart';
 import '../../utils/colors.dart';
 
 class ProductListLayout extends StatelessWidget {
   final List<ProductModel> productList;
-  final Function removeFromList;
+  final Function removeFromList,editScreenNavigation;
   final int index;
   final Orientation orientation;
 
@@ -13,7 +14,7 @@ class ProductListLayout extends StatelessWidget {
       {super.key,
       required this.productList,
       required this.removeFromList,
-      required this.index, required this.orientation});
+      required this.index, required this.orientation, required this.editScreenNavigation});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,7 @@ class ProductListLayout extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () => editScreenNavigation(),
                         icon: const Icon(
                           Icons.edit,
                         ),

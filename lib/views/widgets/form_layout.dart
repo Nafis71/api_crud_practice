@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 
 import '../../themes/text_theme.dart';
 import '../../utils/text_constants.dart';
-import '../widgets/app_text_form_field.dart';
+import 'app_text_form_field.dart';
 
 class FormLayout extends StatelessWidget {
   final TextEditingController productCodeController;
@@ -11,6 +11,7 @@ class FormLayout extends StatelessWidget {
   final TextEditingController unitPriceController;
   final TextEditingController quantityController;
   final TextEditingController imageController;
+  final String title;
   final GlobalKey<FormState> formKey;
 
   const FormLayout(
@@ -20,7 +21,7 @@ class FormLayout extends StatelessWidget {
       required this.nameController,
       required this.unitPriceController,
       required this.quantityController,
-      required this.imageController});
+      required this.imageController, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class FormLayout extends StatelessWidget {
         children: [
           const Gap(15),
           Text(
-            "Enter Product Information",
+            title,
             style: TextThemes.getTextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,

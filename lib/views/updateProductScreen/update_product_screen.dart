@@ -1,25 +1,25 @@
-import 'package:api_crud_practice/models/product_model.dart';
-import 'package:api_crud_practice/themes/text_theme.dart';
-import 'package:api_crud_practice/utils/colors.dart';
-import 'package:api_crud_practice/utils/text_constants.dart';
-import 'package:api_crud_practice/views/widgets/form_layout.dart';
-import 'package:api_crud_practice/views/widgets/app_snackbar.dart';
-import 'package:api_crud_practice/views/widgets/app_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import '../../controllers/data_repository.dart';
+import '../../models/product_model.dart';
+import '../../utils/colors.dart';
+import '../../utils/text_constants.dart';
+import '../widgets/app_snackbar.dart';
+import '../widgets/form_layout.dart';
 
-class AddProductScreen extends StatefulWidget {
+class UpdateProductScreen extends StatefulWidget {
   final DataRepository dataController;
+  final ProductModel product;
 
-  const AddProductScreen({super.key, required this.dataController});
+  const UpdateProductScreen(
+      {super.key, required this.dataController, required this.product});
 
   @override
-  State<AddProductScreen> createState() => _AddProductScreenState();
+  State<UpdateProductScreen> createState() => _UpdateProductScreenState();
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
+class _UpdateProductScreenState extends State<UpdateProductScreen> {
   late TextEditingController _productCodeController;
   late TextEditingController _nameController;
   late TextEditingController _unitPriceController;
@@ -35,14 +35,23 @@ class _AddProductScreenState extends State<AddProductScreen> {
     _unitPriceController = TextEditingController();
     _quantityController = TextEditingController();
     _imageController = TextEditingController();
+    setControllerValue();
     super.initState();
+  }
+
+  void setControllerValue() {
+    _productCodeController.text = widget.product.productCode;
+    _nameController.text = widget.product.productName;
+    _unitPriceController.text = widget.product.unitPrice;
+    _quantityController.text = widget.product.qty;
+    _imageController.text = widget.product.img;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Product"),
+        title: const Text("Update Product"),
       ),
       body: OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
@@ -53,7 +62,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: FormLayout(
-                        title: addProductScreenTitle,
+                        title: updateProductScreenTitle,
                         formKey: _formKey,
                         productCodeController: _productCodeController,
                         nameController: _nameController,
@@ -76,17 +85,22 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           setState(() {});
                           ProductModel product = widget.dataController
                               .processInputData(
+                                  productId: widget.product.sId,
                                   productName: _nameController.text,
                                   productCode: _productCodeController.text,
                                   productImage: _imageController.text,
                                   productUnitPrice: _unitPriceController.text,
                                   productQuantity: _quantityController.text);
                           bool status = await widget.dataController
-                              .addProduct(product);
+                              .updateProduct(product);
                           if (status) {
-                            goBack(addProductSuccessfulText);
+                            goBack(updateProductSuccessfulText);
                           } else {
-                            showSnackBar(addProductFailureText, Colors.red);
+                            isSaving = false;
+                            showSnackBar(updateProductFailureText, Colors.red);
+                            setState(() {
+
+                            });
                           }
                         }
                       },
@@ -94,12 +108,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           (!isSaving)
-                              ? const Icon(Icons.save)
+                              ? const Icon(Icons.edit)
                               : const CircularProgressIndicator(
                                   color: whiteColor,
                                 ),
                           const Gap(15),
-                          const Text("Add Product")
+                          const Text("Update Product")
                         ],
                       ),
                     ),

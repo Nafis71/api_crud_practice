@@ -29,6 +29,16 @@ class ApiService {
     throw Exception("Failed to save data : Error ${response.statusCode}");
   }
 
+  Future<bool> updateData(String endPoint, ProductModel product) async {
+    final Response response = await http.post(Uri.parse("$baseUrl/$endPoint/${product.sId}"),
+        body: jsonEncode(product.toJson()),
+        headers: {'content-type': 'application/json'});
+    if(response.statusCode == 200){
+      return true;
+    }
+    throw Exception("Failed to update data : Error ${response.statusCode}");
+  }
+
   Future<bool> deleteData(String endPoint,String productId)async{
     final Response response = await http.get(Uri.parse("$baseUrl/$endPoint/$productId"));
     if(response.statusCode == 200){

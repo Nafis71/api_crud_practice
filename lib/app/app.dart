@@ -1,3 +1,4 @@
+import 'package:api_crud_practice/app/app_scroll_behaviour.dart';
 import 'package:api_crud_practice/themes/appbar_style.dart';
 import 'package:api_crud_practice/themes/elevated_button_style.dart';
 import 'package:api_crud_practice/themes/textfield_decoration.dart';
@@ -24,6 +25,7 @@ class CrudApp extends StatelessWidget {
         inputDecorationTheme: TextFieldDecoration.getTextFieldDecoration(),
         elevatedButtonTheme: ElevatedButtonStyle.getElevatedButtonStyle()
       ),
+      scrollBehavior: AppScrollBehaviour(),
     );
   }
 }
