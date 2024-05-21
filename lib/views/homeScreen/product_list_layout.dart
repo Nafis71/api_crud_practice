@@ -1,20 +1,21 @@
 import 'package:api_crud_practice/models/product_model.dart';
-import 'package:api_crud_practice/utils/routes.dart';
+import 'package:api_crud_practice/views/homeScreen/product_description.dart';
+import 'package:api_crud_practice/views/widgets/action_container.dart';
 import 'package:flutter/material.dart';
-import '../../themes/text_theme.dart';
+
 import '../../utils/colors.dart';
 
 class ProductListLayout extends StatelessWidget {
-  final List<ProductModel> productList;
-  final Function removeFromList,editScreenNavigation;
-  final int index;
+  final ProductModel product;
+  final Function removeFromList, editScreenNavigation;
   final Orientation orientation;
 
   const ProductListLayout(
       {super.key,
-      required this.productList,
+      required this.product,
       required this.removeFromList,
-      required this.index, required this.orientation, required this.editScreenNavigation});
+      required this.orientation,
+      required this.editScreenNavigation});
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +38,18 @@ class ProductListLayout extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: (orientation == Orientation.portrait) ? MediaQuery.of(context).size.height * 0.15 : MediaQuery.of(context).size.height * 0.35,
+              height: (orientation == Orientation.portrait)
+                  ? MediaQuery.of(context).size.height * 0.15
+                  : MediaQuery.of(context).size.height * 0.35,
               decoration: BoxDecoration(
                 color: const Color(0xFFFBFBFB),
                 borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(8.00),
                     topLeft: Radius.circular(8.00)),
                 image: DecorationImage(
-                  image: NetworkImage(productList[index].img,),
+                  image: NetworkImage(
+                    product.img,
+                  ),
                   fit: BoxFit.scaleDown,
                 ),
               ),
@@ -54,23 +59,20 @@ class ProductListLayout extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      IconButton(
-                        onPressed: () => removeFromList(),
-                        icon: const Icon(
-                          Icons.delete,
-                          color: redColor,
-                        ),
+                      ActionContainer(
+                        onPressedAction: removeFromList,
+                        icon: Icons.delete,
+                        color: redColor,
                       ),
-                      IconButton(
-                        onPressed: () => editScreenNavigation(),
-                        icon: const Icon(
-                          Icons.edit,
-                        ),
-                      ),
+                      ActionContainer(
+                        onPressedAction: editScreenNavigation,
+                        icon: Icons.edit,
+                        color: blackColor,
+                      )
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -81,69 +83,33 @@ class ProductListLayout extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Wrap(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Text(
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          productList[index].productName,
-                          style: TextThemes.getTextStyle(
-                              fontSize: 13.5, fontWeight: FontWeight.w500),
-                        ),
-                      )
-                    ],
-                  ),
-                  Wrap(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Text(
-                          "Unit Price: BDT ${productList[index].unitPrice}",
-                          style: TextThemes.getTextStyle(
-                              fontSize: 11,
-                              color: greyColor,
-                              fontWeight: FontWeight.normal),
-                        ),
-                      ),
-                    ],
-                  ),
+                  ProductDescription(
+                      text: product.productName,
+                      maxLines: 2,
+                      color: blackColor,
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w500),
+                  ProductDescription(
+                      text: "Unit price: ${product.unitPrice}",
+                      color: greyColor,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
+                  ProductDescription(
+                      text: "QTY: ${product.qty}",
+                      color: greyColor,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal),
                 ],
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Wrap(
-                    children: [
-                      Text(
-                        "QTY: ${productList[index].qty}",
-                        style: TextThemes.getTextStyle(
-                          fontSize: 13,
-                          color: greyColor,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Wrap(
-                    children: [
-                      Text(
-                        "BDT ${productList[index].totalPrice}",
-                        style: TextThemes.getTextStyle(
-                            fontSize: 14,
-                            color: appPrimaryColor,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
+                ProductDescription(
+                    text: "BDT: ${product.totalPrice}",
+                    color: appPrimaryColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold),
               ],
             ),
           ],

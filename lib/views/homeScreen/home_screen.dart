@@ -7,11 +7,10 @@ import 'package:api_crud_practice/utils/routes.dart';
 import 'package:api_crud_practice/views/homeScreen/product_list_layout.dart';
 import 'package:api_crud_practice/views/widgets/app_alert_dialog.dart';
 import 'package:api_crud_practice/views/widgets/app_snackbar.dart';
+import 'package:api_crud_practice/views/widgets/app_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-
-import '../../themes/text_theme.dart';
+import 'package:toastification/toastification.dart';
 import '../../utils/text_constants.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -100,23 +99,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                               : 0.8),
                                   itemBuilder: (context, index) {
                                     return ProductListLayout(
-                                        orientation: orientation,
-                                        productList: productList,
-                                        removeFromList: () {
-                                          showAlertDialog(index, productList);
-                                        },
-                                        editScreenNavigation: (){
-                                          Navigator.pushNamed(context, Routes.updateProductScreen, arguments: {
-                                            "dataRepository": dataController,
-                                            "product": productList[index],
-                                          }).then((message){
-                                            if(message !=null){
-                                              postUpdateMessage(message.toString());
-                                            }
-                                            setState(() {});
-                                          });
-                                        },
-                                        index: index);
+                                      orientation: orientation,
+                                      product: productList[index],
+                                      removeFromList: () {
+                                        showAlertDialog(index, productList);
+                                      },
+                                      editScreenNavigation: () {
+                                        Navigator.pushNamed(
+                                            context, Routes.updateProductScreen,
+                                            arguments: {
+                                              "dataRepository": dataController,
+                                              "product": productList[index],
+                                            }).then((message) {
+                                          if (message != null) {
+                                            postUpdateMessage(
+                                                message.toString());
+                                          }
+                                          setState(() {});
+                                        });
+                                      },
+                                    );
                                   },
                                 ),
                               );
@@ -142,9 +144,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.pushNamed(context, Routes.addProductScreen,
                   arguments: dataController)
               .then((message) {
-                if(message!=null){
-                  postUpdateMessage(message.toString());
-                }
+            if (message != null) {
+              postUpdateMessage(message.toString());
+            }
             setState(() {});
           });
         },
@@ -160,12 +162,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void postUpdateMessage(String message){
+  void postUpdateMessage(String message) {
     Future.delayed(const Duration(milliseconds: 900), () {
-      ScaffoldMessenger.of(context).showSnackBar(
-          appSnackbar(message, appPrimaryColor));
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //     appSnackbar(message, appPrimaryColor));
+      showToast(content: message, context: context);
     });
-    }
+  }
 
   Future<void> showAlertDialog(
       int index, List<ProductModel> productList) async {
