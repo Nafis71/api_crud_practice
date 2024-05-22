@@ -41,5 +41,5 @@ const String productImageErrorText = "Invalid Image Url";
 
 //regular Expressions
 const String alphabetsAndDigitsRegEx = r'^[a-zA-z0-9]+$';
-const String alphabetsAndDigitsWithSpaceRegEx = r'^[a-z A-z 0-9]+$';
+const String alphabetsAndDigitsWithSpaceRegEx = r'^[a-z A-z 0-9 -]+$';
 const String digitsRegEx = r'^[0-9]+$';

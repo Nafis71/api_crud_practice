@@ -8,44 +8,19 @@ class TextFieldDecoration{
     contentPadding: const EdgeInsets.all(15.00),
     isDense: true,
     constraints: BoxConstraints.loose(const Size(500, 320)),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.00),
-      borderSide: const BorderSide(
-        color: appPrimaryLightColor,
-        width: 1,
-      ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.00),
-      gapPadding: 5,
-      borderSide: const BorderSide(
-        color: appPrimaryColor,
-        width: 2,
-      ),
-    ),
-    errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.00),
-      gapPadding: 5,
-      borderSide: const BorderSide(
-        color: redColor,
-        width: 2,
-      ),
-    ),
-    focusedErrorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.00),
-      gapPadding: 5,
-      borderSide: const BorderSide(
-        color: redColor,
-        width: 2,
-      ),
-    ),
-    disabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.00),
-      gapPadding: 5,
-      borderSide: const BorderSide(
-        color: greyColor,
-        width: 2,
-      ),
+    enabledBorder: getDefaultBorder(color: appPrimaryColor,width: 1),
+    focusedBorder: getDefaultBorder(color: appPrimaryColor),
+    errorBorder: getDefaultBorder(color: Colors.red),
+    focusedErrorBorder: getDefaultBorder(color: Colors.red),
+    disabledBorder: getDefaultBorder()
+  );
+
+  static OutlineInputBorder getDefaultBorder({Color color = Colors.grey, double width = 2}) => OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10.00),
+    gapPadding: 5,
+    borderSide:  BorderSide(
+      color: color,
+      width: width,
     ),
   );
 }
