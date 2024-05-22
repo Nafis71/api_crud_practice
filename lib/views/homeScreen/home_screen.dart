@@ -153,8 +153,8 @@ class _HomeScreenState extends State<HomeScreen> {
               .then((message) {
             if (message != null) {
               postUpdateMessage(message.toString());
+              setState(() {});
             }
-            setState(() {});
           });
         },
         backgroundColor: appPrimaryColor,
