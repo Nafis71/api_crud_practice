@@ -1,10 +1,8 @@
-import 'package:api_crud_practice/controllers/data_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../models/product_model.dart';
 import '../../utils/colors.dart';
 
 class NoProductData extends StatelessWidget {

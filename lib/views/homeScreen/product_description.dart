@@ -1,4 +1,3 @@
-import 'package:api_crud_practice/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../themes/text_theme.dart';
