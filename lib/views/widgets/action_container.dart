@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/colors.dart';
-
 class ActionContainer extends StatelessWidget {
   final Function onPressedAction;
   final IconData icon;

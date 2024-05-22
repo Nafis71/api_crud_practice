@@ -1,10 +1,8 @@
 import 'package:api_crud_practice/models/product_model.dart';
-import 'package:api_crud_practice/themes/text_theme.dart';
 import 'package:api_crud_practice/utils/colors.dart';
 import 'package:api_crud_practice/utils/text_constants.dart';
-import 'package:api_crud_practice/views/widgets/form_layout.dart';
 import 'package:api_crud_practice/views/widgets/app_snackbar.dart';
-import 'package:api_crud_practice/views/widgets/app_text_form_field.dart';
+import 'package:api_crud_practice/views/widgets/form_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 

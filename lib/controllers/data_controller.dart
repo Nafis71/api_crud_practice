@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:api_crud_practice/controllers/data_repository.dart';
 import 'package:api_crud_practice/models/product_model.dart';
 import 'package:api_crud_practice/services/api_service.dart';
-import 'package:flutter/material.dart';
 
 import '../utils/text_constants.dart';
 

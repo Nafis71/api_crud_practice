@@ -1,4 +1,3 @@
-import 'package:api_crud_practice/controllers/data_controller.dart';
 import 'package:api_crud_practice/views/addProductScreen/add_product_screen.dart';
 import 'package:api_crud_practice/views/homeScreen/home_screen.dart';
 import 'package:api_crud_practice/views/updateProductScreen/update_product_screen.dart';
