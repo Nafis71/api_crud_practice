@@ -94,16 +94,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   itemCount: productList.length,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: (orientation ==
-                                                  Orientation.portrait)
-                                              ? 2
-                                              : 3,
-                                          crossAxisSpacing: 2,
-                                          mainAxisSpacing: 1,
-                                          childAspectRatio: (orientation ==
-                                                  Orientation.portrait)
-                                              ? 0.7
-                                              : 0.8),
+                                    crossAxisCount:
+                                        (orientation == Orientation.portrait)
+                                            ? 2
+                                            : 3,
+                                    crossAxisSpacing: 2,
+                                    mainAxisSpacing: 1,
+                                    childAspectRatio:
+                                        (orientation == Orientation.portrait)
+                                            ? 0.65
+                                            : 0.8,
+                                  ),
                                   itemBuilder: (context, index) {
                                     return ProductListLayout(
                                       orientation: orientation,

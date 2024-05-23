@@ -102,13 +102,13 @@ class ProductListLayout extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Wrap(
               children: [
                 ProductDescription(
                     text: "BDT: ${product.totalPrice}",
                     color: appPrimaryColor,
                     fontSize: 14,
+                    maxLines: 1,
                     fontWeight: FontWeight.bold),
               ],
             ),
