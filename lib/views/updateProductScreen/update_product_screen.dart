@@ -50,6 +50,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Update Product"),
       ),
@@ -60,19 +61,23 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
             child: Column(
               children: [
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: FormLayout(
-                        title: updateProductScreenTitle,
-                        formKey: _formKey,
-                        productCodeController: _productCodeController,
-                        nameController: _nameController,
-                        unitPriceController: _unitPriceController,
-                        quantityController: _quantityController,
-                        imageController: _imageController),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom * 0.5),
+                    child: SingleChildScrollView(
+                      child: FormLayout(
+                          title: updateProductScreenTitle,
+                          formKey: _formKey,
+                          productCodeController: _productCodeController,
+                          nameController: _nameController,
+                          unitPriceController: _unitPriceController,
+                          quantityController: _quantityController,
+                          imageController: _imageController),
+                    ),
                   ),
                 ),
                 SizedBox(
-                  width: double.infinity,
+                  width: MediaQuery.sizeOf(context).width * 0.9,
                   height: (orientation == Orientation.portrait)
                       ? MediaQuery.of(context).size.height * 0.075
                       : MediaQuery.of(context).size.height * 0.15,
@@ -98,8 +103,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                           } else {
                             isSaving = false;
                             showSnackBar(updateProductFailureText, Colors.red);
-                            setState(() {
-                            });
+                            setState(() {});
                           }
                         }
                       },

@@ -39,6 +39,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Add Product"),
       ),
@@ -49,15 +50,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
             child: Column(
               children: [
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: FormLayout(
-                        title: addProductScreenTitle,
-                        formKey: _formKey,
-                        productCodeController: _productCodeController,
-                        nameController: _nameController,
-                        unitPriceController: _unitPriceController,
-                        quantityController: _quantityController,
-                        imageController: _imageController),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom * 0.5),
+                    child: SingleChildScrollView(
+                      child: FormLayout(
+                          title: addProductScreenTitle,
+                          formKey: _formKey,
+                          productCodeController: _productCodeController,
+                          nameController: _nameController,
+                          unitPriceController: _unitPriceController,
+                          quantityController: _quantityController,
+                          imageController: _imageController),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -79,8 +84,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   productImage: _imageController.text,
                                   productUnitPrice: _unitPriceController.text,
                                   productQuantity: _quantityController.text);
-                          bool status = await widget.dataController
-                              .addProduct(product);
+                          bool status =
+                              await widget.dataController.addProduct(product);
                           if (status) {
                             goBack(addProductSuccessfulText);
                           } else {
