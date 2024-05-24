@@ -23,7 +23,7 @@ class ProductListLayout extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(13.0),
         boxShadow: [
           BoxShadow(
               color: blackColor.withOpacity(0.15),
@@ -44,13 +44,13 @@ class ProductListLayout extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xFFFBFBFB),
                 borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(8.00),
-                    topLeft: Radius.circular(8.00)),
+                    topRight: Radius.circular(13.00),
+                    topLeft: Radius.circular(13.00)),
                 image: DecorationImage(
                   image: NetworkImage(
                     product.img,
                   ),
-                  fit: BoxFit.scaleDown,
+                  fit: BoxFit.cover,
                 ),
               ),
               alignment: Alignment.topRight,
@@ -105,7 +105,7 @@ class ProductListLayout extends StatelessWidget {
             Wrap(
               children: [
                 ProductDescription(
-                    text: "BDT: ${product.totalPrice}",
+                    text: "BDT ${product.totalPrice}",
                     color: appPrimaryColor,
                     fontSize: 14,
                     maxLines: 1,
