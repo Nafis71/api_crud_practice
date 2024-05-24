@@ -37,8 +37,32 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text(homeScreenAppbarTitle),
         actions: [
-          IconButton(
-              onPressed: () {}, icon: const Icon(Icons.more_vert, size: 30)),
+          // IconButton(
+          //     onPressed: () {}, icon: const Icon(Icons.more_vert, size: 30)),
+          PopupMenuButton(
+              color: whiteColor,
+              tooltip: filterListText,
+              onSelected: (value) {
+                productListNotifier.value = productListNotifier.value.isNotEmpty
+                    ? value == "high"
+                        ? dataController
+                            .sortProductHighToLow(productListNotifier.value)
+                        : dataController
+                            .sortProductLowToHigh(productListNotifier.value)
+                    : productListNotifier.value;
+              },
+              itemBuilder: (context) {
+                return [
+                  const PopupMenuItem(
+                    value: "low",
+                    child: Text(popupLowToHighText),
+                  ),
+                  const PopupMenuItem(
+                    value: "high",
+                    child: Text(popupHighToLowText),
+                  ),
+                ];
+              })
         ],
       ),
       body: OrientationBuilder(

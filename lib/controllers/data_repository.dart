@@ -10,6 +10,9 @@ abstract class DataRepository {
   List<ProductModel> removeProductData(
       List<ProductModel> productList, int index);
 
+  List<ProductModel> sortProductHighToLow(List<ProductModel> productList);
+  List<ProductModel> sortProductLowToHigh(List<ProductModel> productList);
+
   ProductModel processInputData({
     required String productName,
     required String productCode,

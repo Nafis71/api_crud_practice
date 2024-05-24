@@ -83,4 +83,17 @@ class DataController implements DataRepository {
         totalPrice: totalPrice.toString());
     return product;
   }
+
+  @override
+  List<ProductModel> sortProductHighToLow(List<ProductModel> productList) {
+    List<ProductModel> sortedList = List.from(productList);
+    sortedList.sort((firstModel,secondModel) => (int.tryParse(secondModel.totalPrice) ?? 0).compareTo((int.tryParse(firstModel.totalPrice) ?? 0)));
+    return sortedList;
+  }
+  @override
+  List<ProductModel> sortProductLowToHigh(List<ProductModel> productList) {
+    List<ProductModel> sortedList = List.from(productList);
+    sortedList.sort((firstModel,secondModel) => (int.tryParse(firstModel.totalPrice) ?? 0).compareTo((int.tryParse(secondModel.totalPrice) ?? 0)));
+    return sortedList;
+  }
 }

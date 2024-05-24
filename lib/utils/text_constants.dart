@@ -7,7 +7,9 @@ const updateProductFailureText = "Product failed to update, try again!";
 const deleteProductSuccessful = "Product has been deleted successfully";
 const addProductScreenTitle = "Enter Product Information";
 const updateProductScreenTitle = "Edit Product Information";
-
+const popupHighToLowText = "Price (High to Low)";
+const popupLowToHighText = "Price (Low to High)";
+const filterListText = "Filter List";
 
 //Api baseUrl
 const String baseUrl = "https://crud.teamrabbil.com/api/v1";
