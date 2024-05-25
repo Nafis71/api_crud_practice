@@ -1,6 +1,7 @@
 import 'package:api_crud_practice/models/product_model.dart';
 import 'package:api_crud_practice/views/homeScreen/product_description.dart';
 import 'package:api_crud_practice/views/widgets/action_container.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/colors.dart';
@@ -47,7 +48,7 @@ class ProductListLayout extends StatelessWidget {
                     topRight: Radius.circular(13.00),
                     topLeft: Radius.circular(13.00)),
                 image: DecorationImage(
-                  image: NetworkImage(
+                  image: CachedNetworkImageProvider(
                     product.img,
                   ),
                   fit: BoxFit.cover,

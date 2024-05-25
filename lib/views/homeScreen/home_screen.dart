@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late final DataRepository dataController;
   ValueNotifier<List<ProductModel>> productListNotifier =
       ValueNotifier<List<ProductModel>>([]);
+  String cardSorting = "";
 
   @override
   void initState() {
@@ -42,14 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
           PopupMenuButton(
               color: whiteColor,
               tooltip: filterListText,
-              onSelected: (value) {
-                productListNotifier.value = productListNotifier.value.isNotEmpty
-                    ? value == "high"
-                        ? dataController
-                            .sortProductHighToLow(productListNotifier.value)
-                        : dataController
-                            .sortProductLowToHigh(productListNotifier.value)
-                    : productListNotifier.value;
+              onSelected: (sortValue) {
+                cardSorting = sortValue;
+                sortCards(sortValue);
               },
               itemBuilder: (context) {
                 return [
@@ -78,6 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         productListNotifier.value = snapshot.data!;
+                        if(cardSorting.isNotEmpty){
+                          sortCards(cardSorting);
+                        }
                         return Visibility(
                           visible: snapshot.data!.isNotEmpty,
                           replacement: NoProductData(onRefresh: () async {
@@ -113,6 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onRefresh: () async {
                                   productListNotifier.value =
                                       await dataController.getProductData();
+                                  if(cardSorting.isNotEmpty){
+                                    sortCards(cardSorting);
+                                  }
                                 },
                                 child: GridView.builder(
                                   itemCount: productList.length,
@@ -198,6 +200,16 @@ class _HomeScreenState extends State<HomeScreen> {
     Future.delayed(const Duration(milliseconds: 900), () {
       showToast(content: message, context: context);
     });
+  }
+
+  void sortCards(String sortValue){
+    productListNotifier.value = productListNotifier.value.isNotEmpty
+        ? sortValue == "high"
+        ? dataController
+        .sortProductHighToLow(productListNotifier.value)
+        : dataController
+        .sortProductLowToHigh(productListNotifier.value)
+        : productListNotifier.value;
   }
 
   Future<void> showAlertDialog(
