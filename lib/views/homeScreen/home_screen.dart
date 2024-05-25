@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         (orientation == Orientation.portrait)
                                             ? 2
                                             : 3,
-                                    crossAxisSpacing: 2,
+                                    crossAxisSpacing: 1,
                                     mainAxisSpacing: 1,
                                     childAspectRatio:
                                         (orientation == Orientation.portrait)
