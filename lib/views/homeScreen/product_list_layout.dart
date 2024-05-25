@@ -33,28 +33,28 @@ class ProductListLayout extends StatelessWidget {
               offset: const Offset(0, 5))
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(5.00),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: (orientation == Orientation.portrait)
-                  ? MediaQuery.of(context).size.height * 0.15
-                  : MediaQuery.of(context).size.height * 0.35,
-              decoration: BoxDecoration(
-                color: const Color(0xFFFBFBFB),
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(13.00),
-                    topLeft: Radius.circular(13.00)),
-                image: DecorationImage(
-                  image: CachedNetworkImageProvider(
-                    product.img,
-                  ),
-                  fit: BoxFit.cover,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: (orientation == Orientation.portrait)
+                ? MediaQuery.of(context).size.height * 0.15
+                : MediaQuery.of(context).size.height * 0.35,
+            decoration: BoxDecoration(
+              color: const Color(0xFFFBFBFB),
+              borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(13.00),
+                  topLeft: Radius.circular(13.00)),
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(
+                  product.img,
                 ),
+                fit: BoxFit.cover,
               ),
-              alignment: Alignment.topRight,
+            ),
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,44 +77,44 @@ class ProductListLayout extends StatelessWidget {
                 ],
               ),
             ),
-            const Divider(
-              height: 1.0,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ProductDescription(
-                      text: product.productName,
-                      maxLines: 2,
-                      color: blackColor,
-                      fontSize: 13.5,
-                      fontWeight: FontWeight.w500),
-                  ProductDescription(
-                      text: "Unit price: ${product.unitPrice}",
-                      color: greyColor,
-                      fontSize: 13,
-                      fontWeight: FontWeight.normal),
-                  ProductDescription(
-                      text: "QTY: ${product.qty}",
-                      color: greyColor,
-                      fontSize: 13,
-                      fontWeight: FontWeight.normal),
-                ],
-              ),
-            ),
-            Wrap(
+          ),
+          const Divider(
+            height: 1.0,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ProductDescription(
-                    text: "BDT ${product.totalPrice}",
-                    color: appPrimaryColor,
-                    fontSize: 14,
-                    maxLines: 1,
-                    fontWeight: FontWeight.bold),
+                    text: product.productName,
+                    maxLines: 2,
+                    color: blackColor,
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.w500),
+                ProductDescription(
+                    text: "Unit price: ${product.unitPrice}",
+                    color: greyColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal),
+                ProductDescription(
+                    text: "QTY: ${product.qty}",
+                    color: greyColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal),
               ],
             ),
-          ],
-        ),
+          ),
+          Wrap(
+            children: [
+              ProductDescription(
+                  text: "BDT ${product.totalPrice}",
+                  color: appPrimaryColor,
+                  fontSize: 14,
+                  maxLines: 1,
+                  fontWeight: FontWeight.bold),
+            ],
+          ),
+        ],
       ),
     );
   }
